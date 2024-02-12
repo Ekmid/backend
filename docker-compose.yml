@@ -1,0 +1,20 @@
+version: '3'
+services:
+  postgersql:
+    image: postgres
+    container_name: first-try
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_HOST=localhost
+      - POSTGRES_USER=Ekmid
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DATABASE=postgres
+    command: postgres
+    restart: always
+
+  redits:
+    image: redis:alpine3.14
+    container_name: redis-first-try
+    ports:
+      - "6379:6379"
