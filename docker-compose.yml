@@ -7,7 +7,7 @@ services:
       - "5432:5432"
     environment:
       - POSTGRES_HOST=localhost
-      - POSTGRES_USER=Ekmid
+      - POSTGRES_USER=ekmid
       - POSTGRES_PASSWORD=1234
       - POSTGRES_DATABASE=postgres
     command: postgres
