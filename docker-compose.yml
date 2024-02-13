@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   postgersql:
     image: postgres
@@ -7,8 +7,8 @@ services:
       - "5432:5432"
     environment:
       - POSTGRES_HOST=localhost
-      - POSTGRES_USER=ekmid
-      - POSTGRES_PASSWORD=1234
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=2280 
       - POSTGRES_DATABASE=postgres
     command: postgres
     restart: always
