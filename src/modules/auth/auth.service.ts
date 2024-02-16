@@ -20,7 +20,7 @@ export class AuthService {
         const existUser = await this.userService.findUserByEmail(dto.email)
         if (!existUser) throw new BadRequestException(AppErrors.USER_NOT_EXIST)
         const validatePassword = await bcrypt.compare(dto.password, existUser.password)
-        if (!validatePassword) throw new BadRequestException(AppErrors.WRONG_LOGIN)
+        if (!validatePassword) throw new BadRequestException(AppErrors.WRONG_DATA)
         return existUser
     }
 }
