@@ -8,6 +8,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from 'src/modules/users/models/user.model';
 import { AuthModule } from '../auth/auth.module';
 import { TokenModule } from '../token/token.module';
+import { CartModule } from '../cart/cart.module';
 
 
 @Module({
@@ -32,7 +33,8 @@ import { TokenModule } from '../token/token.module';
   }),
     UsersModule,
     AuthModule,
-    TokenModule
+    TokenModule,
+    CartModule
   ],
   controllers: [AppController],
   providers: [AppService],
