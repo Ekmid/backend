@@ -10,23 +10,18 @@ import { JwtAuthGuard } from 'src/guards/jwt-guard';
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
-    @ApiTags('API')
+    @ApiTags('Auth')
     @ApiResponse({status: 201, type: CreateUserDTO})
     @Post('register')
     register (@Body() dto: CreateUserDTO): Promise<CreateUserDTO> {
         return this.authService.registerUsers(dto)
     } 
 
-    @ApiTags('API')
+    @ApiTags('Auth')
     @ApiResponse({status: 200, type: AuthUserResponse})
     @Post('login')
     login (@Body() dto: UserLoginDTO) {
         return this.authService.loginUser(dto)
     }
 
-    @UseGuards(JwtAuthGuard)
-    @Post('test')
-    test () {
-        return true
-    }
 }

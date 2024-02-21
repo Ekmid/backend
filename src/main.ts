@@ -11,10 +11,10 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe())
 
   const config = new DocumentBuilder()
-    .setTitle('Test api')
-    .setDescription('this api for test')
+    .setTitle('EUROCRAN API')
+    .setDescription('This API created for EUROCRAN company')
     .setVersion('1.0')
-    .addTag('API')
+    .addTag('Auth')
     .build()
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document)
