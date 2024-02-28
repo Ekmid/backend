@@ -1,9 +1,7 @@
-import { Body, Controller, Delete, Patch, Req, UseGuards} from '@nestjs/common';
+import { Body, Controller, Delete, Patch, Req} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDTO } from './dto';
-import { JwtAuthGuard } from 'src/guards/jwt-guard';
-import { request } from 'http';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('users')
 export class UsersController {
@@ -11,16 +9,16 @@ export class UsersController {
 
     @ApiTags("Update/delete user")
     @ApiResponse({status: 200, type: UpdateUserDTO})
-    @UseGuards(JwtAuthGuard)
     @Patch('update-user')
+    @ApiBearerAuth('JWT-auth')
     updateUser(@Body() updateDto: UpdateUserDTO, @Req() request): Promise<UpdateUserDTO> {
         const user = request.user
         return this.userService.updateUser(user.email, updateDto)
     }
 
     @ApiTags("Update/delete user")
-    @UseGuards(JwtAuthGuard)
     @Delete('delete-user')
+    @ApiBearerAuth('JWT-auth')
     deleteUser (@Req() request): Promise<boolean> {
         const user = request.user
         return this.userService.deleteUser(user.email)

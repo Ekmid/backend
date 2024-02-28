@@ -1,5 +1,5 @@
-import { Column, Model, Table } from "sequelize-typescript";
-import { Col } from "sequelize/types/utils";
+import { Column, Model, Table, ForeignKey, BelongsTo } from "sequelize-typescript";
+import { Category } from "src/modules/categories/models/category.model";
 
 @Table
 export class Product extends Model {
@@ -18,4 +18,11 @@ export class Product extends Model {
 
     @Column
     arrowLength: number;
+
+    @ForeignKey(() => Category)
+    @Column
+    categoryId: number;
+
+    @BelongsTo(() => Category)
+    category: Category;
 }
