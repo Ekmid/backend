@@ -12,6 +12,8 @@ import { ProductModule } from '../product/product.module';
 import { Product } from 'src/modules/product/models/products.model';
 import { Category } from '../categories/models/category.model';
 import { CategoryModule } from '../categories/category.module';
+import { Basket } from '../basket/models/basket.model';
+import { BasketModule } from '../basket/basket.module';
 
 
 @Module({
@@ -31,14 +33,15 @@ import { CategoryModule } from '../categories/category.module';
       database: configService.get('db_name'),
       synchronize: true,
       autoLoadModels: true,
-      models: [User, Category, Product]
+      models: [User, Category, Product, Basket]
     }),
   }),
     UsersModule,
     AuthModule,
     TokenModule,
     ProductModule,
-    CategoryModule
+    CategoryModule,
+    BasketModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -9,7 +9,7 @@ export class ProductController {
 
     @ApiTags("Product")
     @ApiResponse({status: 201, type: CreateProductDTO})
-    @ApiBearerAuth()
+    @ApiBearerAuth('JWT-auth')
     @Post('create-product')
     createProduct (@Body() dto: CreateProductDTO): Promise<CreateProductDTO> {
         return this.productService.createProduct(dto)
@@ -17,7 +17,7 @@ export class ProductController {
 
     @ApiTags("Product")
     @ApiResponse({status: 204})
-    @ApiBearerAuth()
+    @ApiBearerAuth('JWT-auth')
     @Delete('delete-product')
     deleteProduct(@Body('id') id: number): Promise<boolean> {
         return this.productService.deleteProduct(id);

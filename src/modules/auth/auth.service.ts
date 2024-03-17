@@ -4,7 +4,6 @@ import { AppErrors } from 'src/common/constants/errors';
 import { CreateUserDTO } from '../users/dto';
 import { UserLoginDTO } from './dto';
 import * as bcrypt from 'bcrypt';
-import { AuthUserResponse } from './response';
 import { TokenService } from '../token/token.service';
 
 @Injectable()
@@ -20,7 +19,7 @@ export class AuthService {
         return this.userService.createUser(dto)
     }
 
-    async loginUser(dto: UserLoginDTO): Promise<AuthUserResponse> {
+    async loginUser(dto: UserLoginDTO): Promise<{token: string}> {
         const existUser = await this.userService.findUserByEmail(dto.email)
         if (!existUser) throw new BadRequestException(AppErrors.USER_NOT_EXIST)
         const validatePassword = await bcrypt.compare(dto.password, existUser.password)
@@ -30,8 +29,7 @@ export class AuthService {
             email: existUser.email
         }
         const token = await this.tokenService.generateJwtToken(userData)
-        const user = await this.userService.publicUser(dto.email)
-        return {...user, token} 
+        return {token} 
         // existUser to show hashed pass
     }
 }

@@ -11,7 +11,7 @@ export class CategoryController {
     @ApiTags("Create/delete category")
     @ApiResponse({status: 201, type: CreateCategoryDTO})
     @Post('create-category')
-    @ApiBearerAuth()
+    @ApiBearerAuth('JWT-auth')
     register (@Body() dto: CreateCategoryDTO): Promise<CreateCategoryDTO> {
         return this.categoryService.createCategory(dto)
     }
@@ -19,7 +19,7 @@ export class CategoryController {
     @ApiTags("Create/delete category")
     @ApiResponse({status: 204})
     @Delete('delete-category')
-    @ApiBearerAuth()
+    @ApiBearerAuth('JWT-auth')
     deleteCategory(@Body('categoryName') categoryName: string): Promise<boolean> {
         return this.categoryService.deleteCategory(categoryName);
     }
