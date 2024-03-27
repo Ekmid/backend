@@ -9,7 +9,12 @@ export class ProductController {
     constructor(private readonly productService: ProductService) { }
 
     @ApiTags("Product")
+<<<<<<< HEAD
     @ApiResponse({ status: 201, type: CreateProductDTO })
+=======
+    @ApiResponse({status: 201, type: CreateProductDTO})
+    @ApiBearerAuth('JWT-auth')
+>>>>>>> 015f5955ef17a71ebc0cd7fa54f1691ef7383458
     @Post('create-product')
     @ApiBearerAuth('JWT-auth')
     createProduct(@Body() dto: CreateProductDTO): Promise<CreateProductDTO> {
@@ -17,7 +22,12 @@ export class ProductController {
     }
 
     @ApiTags("Product")
+<<<<<<< HEAD
     @ApiResponse({ status: 204 })
+=======
+    @ApiResponse({status: 204})
+    @ApiBearerAuth('JWT-auth')
+>>>>>>> 015f5955ef17a71ebc0cd7fa54f1691ef7383458
     @Delete('delete-product')
     @ApiBearerAuth('JWT-auth')
     deleteProduct(@Param('id') id: number): Promise<boolean> {
