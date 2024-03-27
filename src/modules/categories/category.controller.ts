@@ -3,23 +3,22 @@ import { CategoryService } from './category.service';
 import { CreateCategoryDTO } from './dto';
 import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/guards/jwt-guard';
+import { LocalAuthGuard } from 'src/guards/local-guard';
 
 @Controller('categories')
 export class CategoryController {
-    constructor(private readonly categoryService: CategoryService) {}
+    constructor(private readonly categoryService: CategoryService) { }
 
     @ApiTags("Create/delete category")
-    @ApiResponse({status: 201, type: CreateCategoryDTO})
+    @ApiResponse({ status: 201, type: CreateCategoryDTO })
     @Post('create-category')
-    @ApiBearerAuth()
-    register (@Body() dto: CreateCategoryDTO): Promise<CreateCategoryDTO> {
+    register(@Body() dto: CreateCategoryDTO): Promise<CreateCategoryDTO> {
         return this.categoryService.createCategory(dto)
     }
 
     @ApiTags("Create/delete category")
-    @ApiResponse({status: 204})
+    @ApiResponse({ status: 204 })
     @Delete('delete-category')
-    @ApiBearerAuth()
     deleteCategory(@Body('categoryName') categoryName: string): Promise<boolean> {
         return this.categoryService.deleteCategory(categoryName);
     }
