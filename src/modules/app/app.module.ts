@@ -5,16 +5,22 @@ import { UsersModule } from '../users/users.module';;
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configurations from 'src/configurations';
 import { SequelizeModule} from '@nestjs/sequelize';
-import { User } from 'src/modules/users/models/user.model';
+import { User } from 'src/models/user.model';
 import { AuthModule } from '../auth/auth.module';
 import { TokenModule } from '../token/token.module';
 import { ProductModule } from '../product/product.module';
-import { Product } from 'src/modules/product/models/products.model';
-import { Category } from '../categories/models/category.model';
+import { Product } from 'src/models/products.model';
+import { Category } from '../../models/category.model';
 import { CategoryModule } from '../categories/category.module';
-import { Basket } from '../basket/models/basket.model';
-import { BasketModule } from '../basket/basket.module';
-
+import { Cart } from '../../models/cart.model';
+import { CartModule } from '../cart/cart.module';
+import { Order } from '../../models/order.model';
+import { OrderItem } from '../../models/orderItem.model';
+import { Role } from '../../models/role.model';
+import { Promo } from 'src/models/promo.model';
+import { OrderStatus } from 'src/models/orderStatus.model';
+import { RolesModule } from '../roles/roles.module';
+import { OrderModule } from '../order/order.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -33,7 +39,16 @@ import { BasketModule } from '../basket/basket.module';
       database: configService.get('db_name'),
       synchronize: true,
       autoLoadModels: true,
-      models: [User, Category, Product, Basket]
+      models: [
+        User,
+        Category,
+        Product,
+        Cart,
+        Order,
+        OrderItem,
+        Role,
+        Promo,
+        OrderStatus]
     }),
   }),
     UsersModule,
@@ -41,7 +56,9 @@ import { BasketModule } from '../basket/basket.module';
     TokenModule,
     ProductModule,
     CategoryModule,
-    BasketModule
+    CartModule,
+    OrderModule,
+    RolesModule
   ],
   controllers: [AppController],
   providers: [AppService],

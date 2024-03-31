@@ -1,36 +1,51 @@
-import { Controller, Body, Post, Delete, UseGuards, Param } from '@nestjs/common';
+import { Controller, Body, Post, Delete, Param, Get, UseGuards } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
-import { CreateProductDTO } from './dto';
+import { CreateProductDTO } from '../../dto/create-product-dto';
+import { Product } from '../../models/products.model';
+import { Roles } from 'src/decorators/roles.decorator';
+import { UserRole } from 'src/guards/user-role';
 import { JwtAuthGuard } from 'src/guards/jwt-guard';
+import { RolesGuard } from 'src/guards/roles-guard';
 
 @Controller('product')
 export class ProductController {
     constructor(private readonly productService: ProductService) { }
 
     @ApiTags("Product")
-<<<<<<< HEAD
-    @ApiResponse({ status: 201, type: CreateProductDTO })
-=======
     @ApiResponse({status: 201, type: CreateProductDTO})
-    @ApiBearerAuth('JWT-auth')
->>>>>>> 015f5955ef17a71ebc0cd7fa54f1691ef7383458
+    @UseGuards(RolesGuard)
+    @Roles(UserRole.ADMIN)
     @Post('create-product')
-    @ApiBearerAuth('JWT-auth')
     createProduct(@Body() dto: CreateProductDTO): Promise<CreateProductDTO> {
         return this.productService.createProduct(dto)
     }
 
     @ApiTags("Product")
-<<<<<<< HEAD
-    @ApiResponse({ status: 204 })
-=======
     @ApiResponse({status: 204})
-    @ApiBearerAuth('JWT-auth')
->>>>>>> 015f5955ef17a71ebc0cd7fa54f1691ef7383458
+    @UseGuards(RolesGuard)
+    @Roles(UserRole.ADMIN)
     @Delete('delete-product')
-    @ApiBearerAuth('JWT-auth')
     deleteProduct(@Param('id') id: number): Promise<boolean> {
         return this.productService.deleteProduct(id);
     }
+
+
+    @ApiTags("Product")
+    @ApiResponse({status: 200})
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(JwtAuthGuard)
+    @Get('all')
+    getAllProducts(): Promise<Product[]> {
+        return this.productService.getAllProducts();
+    }
+
+    @ApiTags("Product")
+    @ApiResponse({status: 200})
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(JwtAuthGuard)
+    @Get(':id')
+    getProduct(@Param('id') id: number): Promise<Product> {
+        return this.productService.getProduct(id);
+    } 
 }

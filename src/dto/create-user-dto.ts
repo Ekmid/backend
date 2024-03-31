@@ -19,7 +19,6 @@ export class CreateUserDTO {
     password: string;
 }
 
-
 export class UpdateUserDTO {
     @ApiProperty()
     @IsString()
