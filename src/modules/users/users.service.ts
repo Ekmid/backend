@@ -3,15 +3,12 @@ import { InjectModel } from '@nestjs/sequelize';
 import { User } from '../../models/user.model';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDTO, UpdateUserDTO } from '../../dto/create-user-dto';
-import { RolesService } from '../roles/roles.service';
-import { Role } from 'src/models/role.model';
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectModel(User) private readonly userRepository: typeof User,
-        @InjectModel(Role) private readonly rolesRepository: typeof Role
-        ) { }
+        ) {}
 
     async hashPassword(password) {
         return bcrypt.hash(password, 10)
@@ -28,7 +25,8 @@ export class UsersService {
             firstName: dto.firstName,
             username: dto.username,
             email: dto.email,
-            password: dto.password
+            password: dto.password,
+            roles: dto.roles
         })
         return dto
     }
@@ -56,14 +54,5 @@ export class UsersService {
 
     async findById(id: number) {
         return this.userRepository.findOne({ where: { id } });
-    }
-
-    async assignRoleToUser(email: string, roleName: string): Promise<void> {
-        const user = await this.userRepository.findOne({ where: { email: email } });
-        const role = await this.rolesRepository.findOne({ where: { roleName: roleName } });
-        if (!user || !role) {
-          throw new NotFoundException('User or Role not found');
-        }
-        await user.$add('role', role);
     }
 }

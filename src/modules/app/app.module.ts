@@ -7,7 +7,6 @@ import configurations from 'src/configurations';
 import { SequelizeModule} from '@nestjs/sequelize';
 import { User } from 'src/models/user.model';
 import { AuthModule } from '../auth/auth.module';
-import { TokenModule } from '../token/token.module';
 import { ProductModule } from '../product/product.module';
 import { Product } from 'src/models/products.model';
 import { Category } from '../../models/category.model';
@@ -16,10 +15,8 @@ import { Cart } from '../../models/cart.model';
 import { CartModule } from '../cart/cart.module';
 import { Order } from '../../models/order.model';
 import { OrderItem } from '../../models/orderItem.model';
-import { Role } from '../../models/role.model';
 import { Promo } from 'src/models/promo.model';
 import { OrderStatus } from 'src/models/orderStatus.model';
-import { RolesModule } from '../roles/roles.module';
 import { OrderModule } from '../order/order.module';
 
 @Module({
@@ -46,19 +43,16 @@ import { OrderModule } from '../order/order.module';
         Cart,
         Order,
         OrderItem,
-        Role,
         Promo,
         OrderStatus]
     }),
   }),
     UsersModule,
     AuthModule,
-    TokenModule,
     ProductModule,
     CategoryModule,
     CartModule,
     OrderModule,
-    RolesModule
   ],
   controllers: [AppController],
   providers: [AppService],

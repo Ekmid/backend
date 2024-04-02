@@ -4,21 +4,19 @@ import { UpdateUserDTO } from '../../dto/create-user-dto';
 import { ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/guards/jwt-guard';
 import { User } from '../../models/user.model';
-import { RolesService } from '../roles/roles.service';
 // import { AssignRoleDTO } from 'src/dto/assign-role-dto';
 
 @Controller('users')
 export class UsersController {
     constructor(
         private readonly userService: UsersService,
-        private readonly rolesService: RolesService
         ) { }
 
     @ApiTags("Profile")
     @ApiResponse({ status: 200, type: UpdateUserDTO })
-    @ApiBearerAuth('JWT-auth')
+    // @ApiBearerAuth('JWT-auth')
+    // @UseGuards(JwtAuthGuard)
     @Patch('update-user')
-    @UseGuards(JwtAuthGuard)
     updateUser(@Body() updateDto: UpdateUserDTO, @Req() request): Promise<UpdateUserDTO> {
         const user = request.user; // Получаем данные пользователя из объекта запроса
         return this.userService.updateUser(user.email, updateDto);
@@ -26,8 +24,8 @@ export class UsersController {
 
     @ApiTags("Profile")
     @Delete('delete-user')
-    @UseGuards(JwtAuthGuard)
-    @ApiBearerAuth('JWT-auth')
+    // @UseGuards(JwtAuthGuard)
+    // @ApiBearerAuth('JWT-auth')
     deleteUser(@Req() request): Promise<boolean> {
         const user = request.user; // Получаем данные пользователя из объекта запроса
         return this.userService.deleteUser(user.email);
@@ -35,8 +33,8 @@ export class UsersController {
 
     @ApiTags("Profile")
     @ApiResponse({ status: 200, type: User })
-    @UseGuards(JwtAuthGuard)
-    @ApiBearerAuth('JWT-auth')
+    // @UseGuards(JwtAuthGuard)
+    // @ApiBearerAuth('JWT-auth')
     @Get('info')
     getProfile(@Req() request): Promise<User> {
         const user = request.user; // Получаем данные пользователя из объекта запроса

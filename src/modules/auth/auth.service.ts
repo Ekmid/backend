@@ -1,17 +1,17 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { AppErrors } from 'src/common/constants/errors';
 import { CreateUserDTO } from '../../dto/create-user-dto';
 import { UserLoginDTO } from '../../dto/user-login-dto';
 import * as bcrypt from 'bcrypt';
-import { TokenService } from '../token/token.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly userService: UsersService,
-        private readonly tokenService: TokenService
-    ) {}
+        private readonly jwtService: JwtService
+    ) { }
 
     async registerUsers(dto: CreateUserDTO): Promise<CreateUserDTO> {
         const existUser = await this.userService.findUserByEmail(dto.email);
@@ -21,16 +21,24 @@ export class AuthService {
         throw new BadRequestException('User with this email already exists');
     }
 
-    async loginUser(dto: UserLoginDTO): Promise<{token: string}> {
-        const existUser = await this.userService.findUserByEmail(dto.email)
-        if (!existUser) throw new BadRequestException(AppErrors.USER_NOT_EXIST)
-        const validatePassword = await bcrypt.compare(dto.password, existUser.password)
-        if (!validatePassword) throw new BadRequestException(AppErrors.WRONG_DATA)
-        const userData = {
-            name: existUser.firstName,
-            email: existUser.email
+    async validateUser(email: string, password: string): Promise<any> {
+        const user = await this.userService.findUserByEmail(email);
+        // console.log(user);
+        if (user) {
+            const isPasswordMatch = await bcrypt.compare(password, user.password);
+            if (isPasswordMatch) {
+                return user; // Возвращаем пользователя при успешной аутентификации
+            }
         }
-        const token = await this.tokenService.generateJwtToken(userData)
-        return {token} 
-        }
+        throw new UnauthorizedException('Invalid credentials'); // Бросаем исключение в случае неудачной аутентификации
+    }
+
+    async login(user: any) {
+        const userNew = await this.validateUser(user.email, user.password);
+        console.log(userNew);
+        const payload = { email: user.email, sub: user._id, roles: user.roles };
+        return {
+            access_token: this.jwtService.sign(payload),
+        };
+    }
 }

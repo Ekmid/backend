@@ -1,5 +1,4 @@
-import { Column, Model, Table, ForeignKey, BelongsTo, HasOne } from "sequelize-typescript";
-import { Role } from "./role.model";
+import { Column, Model, Table, ForeignKey, HasOne } from "sequelize-typescript";
 import { Cart } from "./cart.model";
 
 @Table
@@ -16,12 +15,8 @@ export class User extends Model {
     @Column
     password: string;
 
-    @ForeignKey(() => Role)
     @Column
-    roleId: number;
-
-    @BelongsTo(() => Role)
-    Role: Role;
+    roles: string;
 
     @ForeignKey(() => Cart)
     @Column

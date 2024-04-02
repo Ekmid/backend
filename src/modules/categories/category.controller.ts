@@ -3,7 +3,7 @@ import { CategoryService } from './category.service';
 import { CreateCategoryDTO } from '../../dto/create-category-dto';
 import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
-import { UserRole } from 'src/guards/user-role';
+import { Role } from "src/modules/auth/enum/role.enum"
 import { RolesGuard } from 'src/guards/roles-guard';
 import { JwtAuthGuard } from 'src/guards/jwt-guard';
 import { Category } from 'src/models/category.model';
@@ -15,8 +15,8 @@ export class CategoryController {
     @ApiTags("Category")
     @ApiResponse({ status: 201, type: CreateCategoryDTO })
     @Post('create-category')
-    @UseGuards(RolesGuard)
-    @Roles(UserRole.ADMIN)
+    // @UseGuards(RolesGuard)
+    // @Roles(Role.Admin)
     createCategory(@Body() dto: CreateCategoryDTO): Promise<CreateCategoryDTO> {
         return this.categoryService.createCategory(dto)
     }
@@ -24,17 +24,17 @@ export class CategoryController {
     @ApiTags("Category")
     @ApiResponse({ status: 204 })
     @Delete('delete-category')
-    @UseGuards(RolesGuard)
-    @Roles(UserRole.ADMIN)
+    // @UseGuards(RolesGuard)
+    // @Roles(Role.Admin)
     deleteCategory(@Param('categoryName') categoryName: string): Promise<boolean> {
         return this.categoryService.deleteCategory(categoryName);
     }
 
     @ApiTags("Category")
     @ApiResponse({status: 200})
-    @ApiBearerAuth('JWT-auth')
-    @UseGuards(JwtAuthGuard)
-    @Get('all-products')
+    // @ApiBearerAuth('JWT-auth')
+    // @UseGuards(JwtAuthGuard)
+    @Get('/')
     getAllProducts(): Promise<Category[]> {
         return this.categoryService.getAllCategories();
     }
