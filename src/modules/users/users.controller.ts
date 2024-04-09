@@ -33,8 +33,8 @@ export class UsersController {
 
     @ApiTags("Profile")
     @ApiResponse({ status: 200, type: User })
-    // @UseGuards(JwtAuthGuard)
-    // @ApiBearerAuth('JWT-auth')
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth('JWT-auth')
     @Get('info')
     getProfile(@Req() request): Promise<User> {
         const user = request.user; // Получаем данные пользователя из объекта запроса

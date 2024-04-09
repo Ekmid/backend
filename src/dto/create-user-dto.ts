@@ -19,9 +19,8 @@ export class CreateUserDTO {
     password: string;
 
     @ApiProperty()
-    @IsString({ each: true })
-    @IsArray()
-    roles: string[];
+    @IsString()
+    role: string;
 }
 
 export class UpdateUserDTO {

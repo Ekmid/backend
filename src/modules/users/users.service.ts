@@ -26,7 +26,7 @@ export class UsersService {
             username: dto.username,
             email: dto.email,
             password: dto.password,
-            roles: dto.roles
+            role: dto.role
         })
         return dto
     }

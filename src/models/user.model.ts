@@ -16,7 +16,7 @@ export class User extends Model {
     password: string;
 
     @Column
-    roles: string;
+    role: string;
 
     @ForeignKey(() => Cart)
     @Column

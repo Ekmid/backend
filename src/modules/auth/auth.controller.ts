@@ -9,7 +9,6 @@ import { UsersService } from '../users/users.service';
 import { LocalAuthGuard } from 'src/guards/local-guard';
 import { Role } from './enum/role.enum';
 import { Roles } from 'src/decorators/roles.decorator';
-import { RolesGuard } from 'src/guards/roles-guard';
 
 @Controller('auth')
 export class AuthController {

@@ -4,7 +4,6 @@ import { CreateCategoryDTO } from '../../dto/create-category-dto';
 import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from "src/modules/auth/enum/role.enum"
-import { RolesGuard } from 'src/guards/roles-guard';
 import { JwtAuthGuard } from 'src/guards/jwt-guard';
 import { Category } from 'src/models/category.model';
 

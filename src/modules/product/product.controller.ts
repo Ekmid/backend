@@ -5,8 +5,8 @@ import { CreateProductDTO } from '../../dto/create-product-dto';
 import { Product } from '../../models/products.model';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from "src/modules/auth/enum/role.enum"
-import { RolesGuard } from 'src/guards/roles-guard';
 import { JwtAuthGuard } from 'src/guards/jwt-guard';
+import { RolesGuard } from 'src/guards/roles-guard';
 
 @Controller('products')
 export class ProductController {
@@ -14,7 +14,6 @@ export class ProductController {
 
     @ApiTags("Products")
     @ApiResponse({ status: 201, type: CreateProductDTO })
-    // @UseGuards(RolesGuard)
     // @Roles(Role.Admin)
     @Post('create-product')
     createProduct(@Body() dto: CreateProductDTO): Promise<CreateProductDTO> {
@@ -23,7 +22,6 @@ export class ProductController {
 
     @ApiTags("Products")
     @ApiResponse({ status: 204 })
-    // @UseGuards(RolesGuard)
     // @Roles(Role.Admin)
     @Delete('delete-product')
     deleteProduct(@Param('id') id: number): Promise<boolean> {
@@ -33,8 +31,9 @@ export class ProductController {
 
     @ApiTags("Products")
     @ApiResponse({ status: 200 })
-    // @ApiBearerAuth('JWT-auth')
-    // @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(Role.Admin)
     @Get('/')
     getAllProducts(): Promise<Product[]> {
         return this.productService.getAllProducts();
